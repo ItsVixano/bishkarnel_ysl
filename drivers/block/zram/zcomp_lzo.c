@@ -20,10 +20,17 @@ static void *lzo_create(gfp_t flags)
 {
 	void *ret;
 
+<<<<<<< HEAD
 	ret = kmalloc(LZO1X_MEM_COMPRESS, flags);
 	if (!ret)
 		ret = __vmalloc(LZO1X_MEM_COMPRESS,
 				flags | __GFP_HIGHMEM,
+=======
+	ret = kzalloc(LZO1X_MEM_COMPRESS, flags);
+	if (!ret)
+		ret = __vmalloc(LZO1X_MEM_COMPRESS,
+				flags | __GFP_ZERO | __GFP_HIGHMEM,
+>>>>>>> fae2d29d4f3d... From the following repos:
 				PAGE_KERNEL);
 	return ret;
 }
