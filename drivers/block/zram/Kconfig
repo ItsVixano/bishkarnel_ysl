@@ -1,7 +1,8 @@
 config ZRAM
 	tristate "Compressed RAM block device support"
-	depends on BLOCK && SYSFS && ZSMALLOC && CRYPTO
-	select CRYPTO_LZO
+	depends on BLOCK && SYSFS && ZSMALLOC
+	select LZO_COMPRESS
+	select LZO_DECOMPRESS
 	default n
 	help
 	  Creates virtual block devices called /dev/zramX (X = 0, 1, ...).
@@ -14,7 +15,6 @@ config ZRAM
 
 	  See zram.txt for more information.
 
-<<<<<<< HEAD
 config ZRAM_LZ4_COMPRESS
 	bool "Enable LZ4 algorithm support"
 	depends on ZRAM
@@ -24,12 +24,3 @@ config ZRAM_LZ4_COMPRESS
 	help
 	  This option enables LZ4 compression algorithm support. Compression
 	  algorithm can be changed using `comp_algorithm' device attribute.
-=======
-config ZRAM_DEBUG
-	bool "Compressed RAM block device debug support"
-	depends on ZRAM
-	default n
-	help
-	  This option adds additional debugging code to the compressed
-	  RAM block device driver.
->>>>>>> fae2d29d4f3d... From the following repos:
