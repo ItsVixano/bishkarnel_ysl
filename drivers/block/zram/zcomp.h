@@ -14,7 +14,6 @@
 struct zcomp_strm {
 	/* compression/decompression buffer */
 	void *buffer;
-<<<<<<< HEAD
 	/*
 	 * The private data of the compression stream, only compression
 	 * stream backend can touch this (e.g. compression algorithm
@@ -35,22 +34,13 @@ struct zcomp_backend {
 	void (*destroy)(void *private);
 
 	const char *name;
-=======
-	struct crypto_comp *tfm;
->>>>>>> fae2d29d4f3d... From the following repos:
 };
 
 /* dynamic per-device compression frontend */
 struct zcomp {
 	struct zcomp_strm * __percpu *stream;
-<<<<<<< HEAD
 	struct zcomp_backend *backend;
 	struct notifier_block notifier;
-=======
-	struct notifier_block notifier;
-
-	const char *name;
->>>>>>> fae2d29d4f3d... From the following repos:
 };
 
 ssize_t zcomp_available_show(const char *comp, char *buf);
@@ -59,14 +49,14 @@ bool zcomp_available_algorithm(const char *comp);
 struct zcomp *zcomp_create(const char *comp);
 void zcomp_destroy(struct zcomp *comp);
 
-struct zcomp_strm *zcomp_stream_get(struct zcomp *comp);
-void zcomp_stream_put(struct zcomp *comp);
+struct zcomp_strm *zcomp_strm_find(struct zcomp *comp);
+void zcomp_strm_release(struct zcomp *comp, struct zcomp_strm *zstrm);
 
-int zcomp_compress(struct zcomp_strm *zstrm,
-		const void *src, unsigned int *dst_len);
+int zcomp_compress(struct zcomp *comp, struct zcomp_strm *zstrm,
+		const unsigned char *src, size_t *dst_len);
 
-int zcomp_decompress(struct zcomp_strm *zstrm,
-		const void *src, unsigned int src_len, void *dst);
+int zcomp_decompress(struct zcomp *comp, const unsigned char *src,
+		size_t src_len, unsigned char *dst);
 
 bool zcomp_set_max_streams(struct zcomp *comp, int num_strm);
 #endif /* _ZCOMP_H_ */
